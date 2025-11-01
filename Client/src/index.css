@@ -1,0 +1,63 @@
+@import url("https://fonts.googleapis.com/css2?family=Maiden+Orange&family=Oswald:wght@200..700&display=swap");
+@import "tailwindcss";
+
+@theme inline {
+  --shadow-input:
+    0px 2px 3px -1px rgba(0, 0, 0, 0.1), 0px 1px 0px 0px rgba(25, 28, 33, 0.02),
+    0px 0px 0px 1px rgba(25, 28, 33, 0.08);
+}
+
+/* Font-face for each weight */
+@font-face {
+  font-family: 'oswald-100';
+  src: url('https://fonts.googleapis.com/css2?family=Oswald:wght@100&display=swap');
+  font-weight: 100;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'oswald-200';
+  src: url('https://fonts.googleapis.com/css2?family=Oswald:wght@200&display=swap');
+  font-weight: 200;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'oswald-300';
+  src: url('https://fonts.googleapis.com/css2?family=Oswald:wght@300&display=swap');
+  font-weight: 300;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'oswald-400';
+  src: url('https://fonts.googleapis.com/css2?family=Oswald:wght@700&display=swap');
+  font-weight: 400;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'oswald-500';
+  src: url('https://fonts.googleapis.com/css2?family=Oswald:wght@700&display=swap');
+  font-weight: 500;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'oswald-600';
+  src: url('https://fonts.googleapis.com/css2?family=Oswald:wght@700&display=swap');
+  font-weight: 600;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'oswald-700';
+  src: url('https://fonts.googleapis.com/css2?family=Oswald:wght@700&display=swap');
+  font-weight: 700;
+  font-style: normal;
+}
+
+/* CSS variables for easier usage */
+@theme {
+  --font-oswald-100: 'oswald-100';
+  --font-oswald-200: 'oswald-200';
+  --font-oswald-300: 'oswald-300';
+  --font-oswald-400: 'oswald-400';
+  --font-oswald-500: 'oswald-500';
+  --font-oswald-600: 'oswald-600';
+  --font-oswald-700: 'oswald-700';
+}
