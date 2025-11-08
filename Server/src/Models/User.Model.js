@@ -1,4 +1,4 @@
-import mongoose, { mongo } from "mongoose";
+import mongoose from "mongoose";
 
 const { Schema } = mongoose;
 
@@ -6,7 +6,7 @@ const UserSchema = new Schema(
   {
     username: {
       type: String,
-      unique:   true,
+      unique: true,
       required: [true, "Username is required"],
     },
     name: {
@@ -23,6 +23,11 @@ const UserSchema = new Schema(
       required: [true, "Password is required"],
       minlength: [6, "Password must be at least 6 characters"],
       maxlength: [128, "Password cannot exceed 128 characters"],
+    },
+    role: {
+      type: String,
+      enum: ["admin", "user"],
+      default: "user",
     },
   },
   { timestamps: true }

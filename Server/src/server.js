@@ -1,19 +1,19 @@
 import app from "./app.js";
-import dotenv from 'dotenv';
+import dotenv from "dotenv";
 import connectDB from "./config/db.js";
-import cors from "cors"
-import cookieParser from "cookie-parser"
+import cors from "cors";
 
-app.use(cors({
-    credentials:true
-}))
+app.use(
+  cors({
+    credentials: true,
+  })
+);
 
 dotenv.config();
 connectDB();
-app.use(cookieParser())
 
 const PORT = process.env.PORT || 4000;
 
-app.listen(PORT,()=>{
-    console.log(`http://localhost:${PORT}/`)
+app.listen(PORT, () => {
+  console.log(`http://localhost:${PORT}/`);
 });
