@@ -1,0 +1,124 @@
+import axios from "axios";
+import { createContext, useContext, useEffect, useState } from "react";
+
+const authContext = createContext();
+export const useAuth = () => useContext(authContext);
+
+export function AuthProvider({ children }) {
+  const [Loading, setLoading] = useState(true);
+  const [User, setUser] = useState(null);
+  const [Error, setError] = useState(null);
+  const [isAuthenticated, setisAuthenticated] = useState(null);
+
+  const fetchUser = async () => {
+    setLoading(true);
+
+    try {
+      const res = await axios.get("api/auth/getMe", {
+        withCredentials: true,
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      console.log(res.data);
+      setUser(res.data.user);
+      setisAuthenticated(true);
+      return res.data.user;
+    } catch (error) {
+      console.log("Fetch user error", error);
+      setUser(null);
+      setisAuthenticated(null);
+
+      if (error.response?.status !== 401) {
+        setError(error.response?.data?.msg || "Failed to fetch user");
+      }
+      return null;
+    } finally {
+      setLoading(false);
+    }
+  };
+  const login = async (emailOrUsername, password) => {
+    setLoading(true);
+    setError(null);
+
+    try {
+      const res = await axios.post(
+        "/api/auth/login",
+        {
+          emailOrUsername,
+          password,
+        },
+        {
+          withCredentials: true,
+        }
+      );
+
+      setUser(res.data.user);
+      setisAuthenticated(true);
+      return { success: true, user: res.data.user };
+    } catch (error) {
+      console.log("Login error:", error);
+      const errorMsg = error.res?.data?.msg || "Login failed";
+      setError(errorMsg);
+      setUser(null);
+      setisAuthenticated(false);
+      return { success: false, error: errorMsg };
+    } finally {
+      setLoading(false);
+    }
+  };
+  const logout = async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      await axios.post(
+        "api/auth/logout",
+        {},
+        {
+          withCredentials: true,
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      setUser(null);
+      setisAuthenticated(false);
+      return { success: true };
+    } catch (error) {
+      console.error("logout error: ", error);
+      setUser(null);
+      setisAuthenticated(false);
+      return { success: true };
+    } finally {
+      setLoading(false);
+    }
+  };
+  const clearError = () => {
+    setError(null);
+  };
+
+  useEffect(() => {
+    const checkAuth = async () => {
+      if (isAuthenticated === false) {
+        setLoading(false);
+        return;
+      }
+      console.log(isAuthenticated)
+      await fetchUser();
+    };
+
+    checkAuth();
+  }, []);
+
+  const value = {
+    User,
+    Loading,
+    isAuthenticated,
+    login,
+    logout,
+    clearError,
+    fetchUser,
+    Error,
+  };
+  return <authContext.Provider value={value}>{children}</authContext.Provider>;
+}

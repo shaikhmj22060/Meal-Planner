@@ -1,36 +1,66 @@
 import React, { useState } from "react";
 import Button from "./Button";
 import { cn } from "../lib/utils";
-import { IconHammer, IconMenu2 } from "@tabler/icons-react";
+import {
+  IconHammer,
+  IconLogin,
+  IconLogout,
+  IconMenu2,
+} from "@tabler/icons-react";
 import { motion } from "motion/react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Modal from "./MenuModal";
+import { useAuth } from "../context/AuthContext";
 const Nav = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const navigate = useNavigate();
+  const { isAuthenticated, logout } = useAuth();
 
+  const logOut = async () => {
+    const res = await logout();
+    if (res.success) {
+      navigate("/login");
+    }
+  };
   const openMenu = () => {
     setIsOpen(true);
   };
   const closeMenu = () => {
     setIsOpen(false);
   };
-  const navLInks = [
-    {
-      id: "#Login",
-      tittle: "Login ",
-      href: "/login",
-    },
+  const navLinks = [
     {
       id: "#Signup",
-      tittle: "Signup",
+      title: "Signup",
       href: "/register",
+      requireAuth: false,
     },
     {
-      id: "#Home",
-      tittle: "Home",
-      href: "/",
+      id: "#Login",
+      title: "Login",
+      href: "/login",
+      requireAuth: false,
+      icon: <IconLogin className="size-5" />,
+      className:
+        "px-2 py-2 active:scale-1 hover:bg-black/70  transition-all duration-300 rounded-xl bg-black/80 shadow-input text-sm  justify-center text-white flex items-center gap-1",
+    },
+    {
+      id: "#Meals",
+      title: "Meals",
+      href: "#Meals",
+      requireAuth: true,
+    },
+    {
+      id: "#Logout",
+      title: "Log out",
+      href: "#Logout",
+      requireAuth: true,
+      icon: <IconLogout className="size-5" />,
+      className:
+        "px-2 py-2 active:scale-1 hover:bg-black/70  transition-all duration-300 rounded-xl bg-black/80 shadow-input text-sm  justify-center text-white flex items-center gap-1",
     },
   ];
+
   const listVariants = {
     open: {
       transition: {
@@ -53,8 +83,13 @@ const Nav = () => {
 
   return (
     <>
-      <div className="w-full h-screen ">
-        <nav className=" w-10/12 px-4 fixed py-2 mt-4 left-1/2 -translate-x-1/2 bg-neutral-200 shadow-input rounded-2xl ">
+      <div className="w-full h-1/11 ">
+        <motion.nav
+          initial={{ opacity: 0, filter: "blur(10px)", y: 20 }}
+          animate={{ opacity: 1, filter: "blur(0px)", y: 0 }}
+          transition={{duration:0.6 ,ease:"easeIn"}}
+          className=" w-10/12 z-30 px-4 md:px-2 fixed py-2 mt-4 left-1/2 -translate-x-1/2 bg-neutral-200 shadow-input rounded-2xl "
+        >
           <div className="flex justify-between items-center">
             <div>
               <h1 className=" text-2xl text-gray-900 font-semibold">
@@ -63,11 +98,36 @@ const Nav = () => {
             </div>
             <div className="text-gray-700 font-semibold">
               <ul className="sm:flex sm:items-center gap-2 hidden">
-                {navLInks.map((data) => (
-                  <li key={data.id} id={data.id}>
-                    <Link to={data.href}>{data.tittle}</Link>
-                  </li>
-                ))}
+                {navLinks.map((data) => {
+                  if (isAuthenticated == true) {
+                    // When user IS logged in → hide Login & Signup
+                    if (data.id === "#Login" || data.id === "#Signup")
+                      return null;
+                  } else {
+                    // When user is NOT logged in → hide Logout & Home
+                    if (data.id === "#Logout" || data.id === "#Meals")
+                      return null;
+                  }
+                  const handleClick = (e) => {
+                    if (data.id === "#Logout") {
+                      e.preventDefault();
+                      logOut();
+                    }
+                  };
+
+                  return (
+                    <li key={data.id} id={data.id}>
+                      <Link
+                        to={data.href}
+                        className={data.className}
+                        onClick={handleClick}
+                      >
+                        {data.icon}
+                        {data.title}
+                      </Link>
+                    </li>
+                  );
+                })}
               </ul>
               <div>
                 <div>
@@ -78,7 +138,7 @@ const Nav = () => {
               </div>
             </div>
           </div>
-        </nav>
+        </motion.nav>
         <div className="sm:hidden">
           <Modal isOpen={isOpen} closeMenu={closeMenu}>
             <motion.ul
@@ -87,15 +147,38 @@ const Nav = () => {
               animate={isOpen ? "open" : "closed"}
               className="text-2xl flex flex-col divide-y-2 shadow-xs divide-neutral-400/20 text-gray-700"
             >
-              {navLInks.map((data) => (
-                <motion.li
-                  key={data.id}
-                  variants={itemVariants}
-                  className="py-4"
-                >
-                  <Link to={data.href}>{data.tittle}</Link>
-                </motion.li>
-              ))}
+              {navLinks.map((data) => {
+                if (isAuthenticated) {
+                  // When user IS logged in → hide Login & Signup
+                  if (data.id === "#Login" || data.id === "#Signup")
+                    return null;
+                } else {
+                  // When user is NOT logged in → hide Logout & Home
+                  if (data.id === "#Logout" || data.id === "#Meals")
+                    return null;
+                }
+                const handleClick = (e) => {
+                  if (data.id === "#Logout") {
+                    e.preventDefault();
+                    logout();
+                  }
+                };
+                return (
+                  <motion.li
+                    key={data.id}
+                    variants={itemVariants}
+                    className="py-4"
+                  >
+                    <Link
+                      to={data.href}
+                      className={data.className}
+                      onClick={handleClick}
+                    >
+                      {data.title}
+                    </Link>
+                  </motion.li>
+                );
+              })}
             </motion.ul>
           </Modal>
         </div>
