@@ -20,7 +20,7 @@ export function AuthProvider({ children }) {
           "Content-Type": "application/json",
         },
       });
-      console.log(res.data);
+      console.log(res.data.user);
       setUser(res.data.user);
       setisAuthenticated(true);
       return res.data.user;
@@ -33,6 +33,36 @@ export function AuthProvider({ children }) {
         setError(error.response?.data?.msg || "Failed to fetch user");
       }
       return null;
+    } finally {
+      setLoading(false);
+    }
+  };
+  const register = async (username,name, email, password) => {
+    setLoading(true);
+    setError(null);
+    try {
+      const res = await axios.post(
+        "api/auth/register",
+        {
+          username,
+          name,
+          email,
+          password,
+        },
+        {
+          withCredentials: true,
+        }
+      );
+      setUser(res.data.user);
+      setisAuthenticated(true);
+      return { success: true, user: res.data.user };
+    } catch (error) {
+      console.log("register error", error);
+      const errorMsg = error.res?.data?.msg || "register failed";
+      setError(errorMsg);
+      setUser(null);
+      setisAuthenticated(false);
+      return { success: false, error: errorMsg };
     } finally {
       setLoading(false);
     }
@@ -103,12 +133,11 @@ export function AuthProvider({ children }) {
         setLoading(false);
         return;
       }
-      console.log(isAuthenticated)
       await fetchUser();
     };
 
     checkAuth();
-  }, []);
+  }, [isAuthenticated]);
 
   const value = {
     User,
@@ -119,6 +148,7 @@ export function AuthProvider({ children }) {
     clearError,
     fetchUser,
     Error,
+    register,
   };
   return <authContext.Provider value={value}>{children}</authContext.Provider>;
 }

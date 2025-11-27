@@ -50,14 +50,14 @@ const Modal = ({ children, isOpen, closeMenu }) => {
           initial="initial"
           animate="animate"
           exit="exit"
-          className="fixed inset-0 z-50 bg-neutral-200/60 backdrop-blur-sm"
+          className="fixed inset-0 z-50 bg-neutral-100/50 backdrop-blur-sm"
         >
           <motion.div
             variants={modalPanel}
             initial="initial"
             animate="animate"
             exit="exit"
-            className="h-screen w-full bg-neutral-200 shadow-xl"
+            className="h-screen w-full bg-neutral-200/20 shadow-xl"
           >
             <div className="w-full px-8 py-6 shadow-input flex items-center justify-between">
               <h1 className="text-2xl font-semibold text-gray-900">Menu</h1>
@@ -66,14 +66,14 @@ const Modal = ({ children, isOpen, closeMenu }) => {
                 initial="initial"
                 animate="animate"
                 exit="exit"
-                className="bg-neutral-300/80 px-3 py-1.5 rounded-xl"
+                className="bg-neutral-200/30 px-3 py-1.5 rounded-xl"
                 onClick={closeMenu}
               >
                 <IconX className="text-gray-700" />
               </motion.button>
             </div>
 
-            <div className="px-8 py-8 h-full bg-neutral-300/35">{children}</div>
+            <div className="px-8 py-8 h-full bg-neutral-100/35">{children}</div>
           </motion.div>
         </motion.div>
       )}

@@ -1,7 +1,8 @@
 export const Prompt = (mealName, serving = 2, note = "") => {
   return `
 You are a recipe generator AI. 
-Generate a complete recipe for "${mealName}" serving ${serving} people.
+Generate a complete recipe for "${mealName} ${note}" serving ${serving} people.
+
 
 Respond ONLY in valid JSON OBJECT that follows this exact structure:
 

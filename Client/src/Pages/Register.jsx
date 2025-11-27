@@ -1,21 +1,23 @@
-import { useState, useEffect } from "react";
-import axios from "axios";
+import React, { useEffect, useState } from "react";
 import Button from "../Components/Button";
 import { useAuth } from "../context/AuthContext";
 import { replace, useNavigate } from "react-router-dom";
-const Login = () => {
-  const [UsernameEmail, setUsernameEmail] = useState("");
-  const [Password, setPassword] = useState("");
 
-  const { login, error, clearError, User, isAuthenticated } = useAuth();
+const Register = () => {
+  const [Username, setUsername] = useState("");
+  const [Email, setEmail] = useState("");
+  const [Password, setPassword] = useState("");
+  const [Name, setName] = useState("");
   const navigate = useNavigate();
+  const { register, error, clearError, isAuthenticated } = useAuth();
+
   const onSubmit = async (e) => {
     e.preventDefault();
     clearError();
-    const result = await login(UsernameEmail, Password);
+    const result = await register(Username, Name, Email, Password);
     console.log(result);
     if (result.success) {
-      navigate("/", { replace: true });
+      navigate("/ ", { replace: true });
     }
   };
   useEffect(() => {
@@ -23,22 +25,34 @@ const Login = () => {
       navigate("/", { replace: true });
     }
   }, [isAuthenticated, navigate]);
-
   return (
     <>
       <div className="w-full h-screen">
-        
         <div className=" w-full h-screen flex flex-col justify-center items-center">
           <div className=" md:bg-neutral-50 md:shadow-input  md:px-18  md:py-16 rounded-2xl space-y-4">
-            <h1 className="text-3xl font-semibold">Login</h1>
+            <h1 className="text-3xl font-semibold">Signup</h1>
             <div>
-              <form >
+              <form>
                 <div className="flex flex-col space-y-2 text-md text-neutral-800">
-                  <label htmlFor="Name">Enter username or email</label>
+                  <label htmlFor="Name">Enter username </label>
                   <input
                     type="text"
-                    value={UsernameEmail}
-                    onChange={(e) => setUsernameEmail(e.target.value)}
+                    value={Username}
+                    onChange={(e) => setUsername(e.target.value)}
+                    className="border-none outline-none  focus:ring-2 focus:ring-neutral-400 px-3 py-2 bg-white/65  focus:bg-white transition-colors text-neutral-700 duration-300 shadow-input  rounded"
+                  />
+                  <label htmlFor="Name">Enter username </label>
+                  <input
+                    type="text"
+                    value={Name}
+                    onChange={(e) => setName(e.target.value)}
+                    className="border-none outline-none  focus:ring-2 focus:ring-neutral-400 px-3 py-2 bg-white/65  focus:bg-white transition-colors text-neutral-700 duration-300 shadow-input  rounded"
+                  />
+                  <label htmlFor="Name">Enter Email</label>
+                  <input
+                    type="text"
+                    value={Email}
+                    onChange={(e) => setEmail(e.target.value)}
                     className="border-none outline-none  focus:ring-2 focus:ring-neutral-400 px-3 py-2 bg-white/65  focus:bg-white transition-colors text-neutral-700 duration-300 shadow-input  rounded"
                   />
 
@@ -52,16 +66,13 @@ const Login = () => {
                   <div className="pt-2">
                     <Button
                       onClick={onSubmit}
-                      className={
-                        "text-lg w-1/2  font-semibold cursor-pointer"
-                      }
+                      className={"text-lg w-1/2  font-semibold cursor-pointer"}
                     >
-                      Login
+                      Signup
                     </Button>
                   </div>
                 </div>
               </form>
-              <div>{User && <h1> {User.name}</h1>}</div>
             </div>
           </div>
         </div>
@@ -70,4 +81,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default Register;

@@ -3,11 +3,18 @@ import Home from "./Pages/Home";
 import Login from "./Pages/Login";
 import Protected from "./context/Protected";
 import Logout from "./Components/Logout";
+import MyRecipe from "./Pages/MyRecipe";
+import Generate from "./Components/App/Generate";
+import Register from "./Pages/Register";
 
 export const router = createBrowserRouter([
   {
     path: "/",
     element: <Home />,
+  },
+  {
+    path: "/register",
+    element: <Register />,
   },
   {
     path: "/login",
@@ -16,5 +23,15 @@ export const router = createBrowserRouter([
   {
     path: "/logout",
     element: <Logout />,
+  },
+  {
+    path: "/App/Meals",
+    element: <MyRecipe />,
+    children: [
+      {
+        path: "generate",
+        element: <Generate />,
+      },
+    ],
   },
 ]);

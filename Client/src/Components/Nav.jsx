@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import Button from "./Button";
 import { cn } from "../lib/utils";
 import {
-  IconHammer,
   IconLogin,
   IconLogout,
   IconMenu2,
@@ -46,8 +45,8 @@ const Nav = () => {
     },
     {
       id: "#Meals",
-      title: "Meals",
-      href: "#Meals",
+      title: "My Recipe",
+      href: "/App/Meals",
       requireAuth: true,
     },
     {
@@ -88,7 +87,7 @@ const Nav = () => {
           initial={{ opacity: 0, filter: "blur(10px)", y: 20 }}
           animate={{ opacity: 1, filter: "blur(0px)", y: 0 }}
           transition={{duration:0.6 ,ease:"easeIn"}}
-          className=" w-10/12 z-30 px-4 md:px-2 fixed py-2 mt-4 left-1/2 -translate-x-1/2 bg-neutral-200 shadow-input rounded-2xl "
+          className=" w-10/12 z-30 px-4 md:px-2 fixed py-2 mt-4 left-1/2 -translate-x-1/2 bg-neutral-200/50 shadow-input rounded-2xl "
         >
           <div className="flex justify-between items-center">
             <div>
