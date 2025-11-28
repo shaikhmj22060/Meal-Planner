@@ -11,7 +11,7 @@ export default function Generate() {
   const [serving, setServing] = useState("");
   const [notes, setNotes] = useState("");
   const [loading, setLoading] = useState(false); // ✅ lowercase
-  const [meal, setMeal] = useState(null); // ✅ lowercase
+  const [meal, setMeal] = useState([]); // ✅ lowercase
   const [error, setError] = useState(null); // ✅ Add error state
   const { isAuthenticated } = useAuth();
 
@@ -82,8 +82,8 @@ export default function Generate() {
   useEffect(() => {
     const loadMeals = async () => {
       const data = await fetchMeals();
-      console.log(data)
-      setMeal(data)
+      console.log(data);
+      setMeal(data);
     };
     loadMeals();
   }, []);
@@ -125,8 +125,8 @@ export default function Generate() {
           </div>
         )}
 
-        {meal && meal.length > 0 ? (
-          meal.meal.map((item) => (
+        {meal.length > 0 ? (
+          meal.map((item) => (
             <motion.div
               key={item._id}
               initial={{ opacity: 0, scale: 0.9 }}
@@ -142,8 +142,8 @@ export default function Generate() {
             </motion.div>
           ))
         ) : (
-          <p className="text-neutral-500 col-span-full text-center">
-            No meals found. Generate one to get started.
+          <p className="text-neutral-500 text-center col-span-full">
+            No meals found. Generate one to see it here.
           </p>
         )}
 
