@@ -38,10 +38,9 @@ export const fetchMeals = async () => {
 };
 export const getRecipeByMealId = async (mealId) => {
   try {
-    const res = await axios.get(
-      `${url}/api/crud/recipe/${mealId}`,
-      { withCredentials: true }
-    );
+    const res = await axios.get(`${url}/api/crud//get-recipe/${mealId}`, {
+      withCredentials: true,
+    });
     return res.data.recipe; // return ONLY the recipe
   } catch (err) {
     console.error("Error:", err);
