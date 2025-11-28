@@ -10,18 +10,39 @@ export default function Generate() {
   const [dish, setDish] = useState("");
   const [serving, setServing] = useState("");
   const [notes, setNotes] = useState("");
-  const [Loading, setLoading] = useState(false);
-  const [Meal, setMeal] = useState(null);
+  const [loading, setLoading] = useState(false); // ✅ lowercase
+  const [meal, setMeal] = useState(null); // ✅ lowercase
+  const [error, setError] = useState(null); // ✅ Add error state
   const { isAuthenticated } = useAuth();
 
   const onSubmit = async (e) => {
     e.preventDefault();
+
+    if (!isAuthenticated) {
+      setError("Please login to generate recipes");
+      return;
+    }
+
     setLoading(true);
-    if (isAuthenticated == true) {
+    setError(null);
+
+    try {
+      console.log("🍳 Generating recipe for:", dish); // Debug
       const result = await generate(dish, serving, notes);
+      console.log("✅ Recipe generated:", result); // Debug
+
       setMeal(result);
+      setOpen(false); // ✅ Close modal after successful generation
+
+      // Reset form
+      setDish("");
+      setServing("");
+      setNotes("");
+    } catch (err) {
+      console.error("❌ Generation error:", err);
+      setError("Failed to generate recipe. Please try again.");
+    } finally {
       setLoading(false);
-      setOpen(false);
     }
   };
 
@@ -58,12 +79,10 @@ export default function Generate() {
       },
     },
   };
-  if (Loading) {
-    return <div className="z-999">Generating</div>;
-  }
+
   return (
     <motion.div
-      className="relative w-full h-screen p-4 flex flex-col "
+      className="relative w-full h-screen p-4 flex flex-col"
       variants={containerVariants}
       initial="hidden"
       animate="show"
@@ -75,33 +94,68 @@ export default function Generate() {
       >
         <img
           src="https://imgs.search.brave.com/cbK02ZtlH68iHg0WjpVo9S7_Tmz6N502BlUBGvM5a-o/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly9jZG5p/Lmljb25zY291dC5j/b20vaWxsdXN0cmF0/aW9uL3ByZW1pdW0v/dGh1bWIvcGVyc29u/LWluLWFwcm9uLWNv/b2tpbmctaW4tYS1w/b3Qtb24tYS1kaWdp/dGFsLXNjcmVlbi1p/bGx1c3RyYXRpb24t/c3ZnLWRvd25sb2Fk/LXBuZy0xMzAwMDE4/Ni5wbmc"
-          alt="Pencil Illustration"
+          alt="Cooking Illustration"
           className="w-full h-full object-contain opacity-90"
         />
       </motion.div>
+
+      {/* Cards Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 p-2">
-        {Meal?.meal && (
-          <Card
-            img={"/dish2.svg"}
-            tittle={Meal.meal.mealName}
-            servings={Meal.meal.serving}
-          />
+        {/* ✅ Show loading indicator here instead of replacing entire component */}
+        {loading && (
+          <div className="col-span-full flex items-center justify-center py-8">
+            <div className="flex flex-col items-center gap-2">
+              <div className="w-8 h-8 border-4 border-neutral-300 border-t-neutral-800 rounded-full animate-spin" />
+              <p className="text-neutral-600">Generating your recipe...</p>
+            </div>
+          </div>
         )}
-        <Card img={"/dish2.svg"} />
+
+        {/* ✅ Show error if any */}
+        {error && (
+          <div className="col-span-full bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
+            {error}
+          </div>
+        )}
+
+        {/* ✅ Show meal card when available */}
+        {meal?.meal && !loading && (
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.3 }}
+          >
+            <Card
+              img="/dish2.svg"
+              title={meal.meal.mealName} // ✅ Fixed typo
+              servings={meal.meal.serving}
+            />
+          </motion.div>
+        )}
+
+        {/* ✅ Show empty state when no meal and not loading */}
+        {!meal && !loading && (
+          <div className="col-span-full flex items-center justify-center py-12 text-neutral-400">
+            <p>Click the + button to generate your first recipe!</p>
+          </div>
+        )}
       </div>
 
       {/* Floating Button */}
       <motion.button
         variants={itemVariants}
         onClick={() => setOpen(true)}
+        disabled={loading} // ✅ Disable while loading
         className="fixed bottom-6 right-6 bg-neutral-800 text-white w-14 h-14 rounded-full 
-            flex cursor-pointer items-center justify-center shadow-lg text-3xl hover:bg-neutral-700"
-        whileHover={{ scale: 1.1 }}
-        whileTap={{ scale: 0.95 }}
+            flex cursor-pointer items-center justify-center shadow-lg text-3xl hover:bg-neutral-700
+            disabled:opacity-50 disabled:cursor-not-allowed"
+        whileHover={{ scale: loading ? 1 : 1.1 }}
+        whileTap={{ scale: loading ? 1 : 0.95 }}
       >
         +
       </motion.button>
 
+      {/* Modal */}
       <AnimatePresence>
         {open && (
           <motion.div
@@ -110,6 +164,7 @@ export default function Generate() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             className="fixed inset-0 backdrop-blur-md shadow-input bg-black/30 flex items-center justify-center z-50"
+            onClick={() => setOpen(false)} // ✅ Close on backdrop click
           >
             <motion.div
               variants={modalVariants}
@@ -117,53 +172,66 @@ export default function Generate() {
               animate="show"
               exit="exit"
               className="bg-white w-[90%] max-w-md p-6 rounded-xl shadow-xl"
+              onClick={(e) => e.stopPropagation()} // ✅ Prevent closing when clicking inside
             >
               <h3 className="text-xl font-semibold mb-4">Create New Recipe</h3>
 
-              {/* Dish Name */}
-              <label className="block text-sm font-medium mb-1">
-                Dish Name
-              </label>
-              <input
-                type="text"
-                value={dish}
-                onChange={(e) => setDish(e.target.value)}
-                className="w-full outline-neutral-200 rounded-lg p-2 mb-4 shadow-input"
-                placeholder="Enter dish name"
-              />
-
-              {/* Serving */}
-              <label className="block text-sm font-medium mb-1">Serving</label>
-              <input
-                type="number"
-                value={serving}
-                onChange={(e) => setServing(e.target.value)}
-                className="w-full outline-neutral-200 rounded-lg p-2 mb-4 shadow-input"
-                placeholder="Number of servings"
-              />
-
-              {/* Notes */}
-              <label className="block text-sm font-medium mb-1">
-                Additional Notes
-              </label>
-              <textarea
-                value={notes}
-                onChange={(e) => setNotes(e.target.value)}
-                className="w-full outline-neutral-200 rounded-lg p-2 h-24 mb-4 shadow-input"
-                placeholder="Write notes..."
-              />
-
-              <div className="flex justify-end gap-3 mt-4">
-                <button
-                  onClick={() => setOpen(false)}
-                  className="px-4 py-2 bg-neutral-200/60 rounded-lg hover:bg-gray-300"
-                >
-                  Cancel
-                </button>
-                <Button onClick={onSubmit} className={"px-4 font-semibold"}>
-                  Generate
-                </Button>
-              </div>
+              <form onSubmit={onSubmit}>
+                {" "}
+                {/* ✅ Wrap in form for better UX */}
+                {/* Dish Name */}
+                <label className="block text-sm font-medium mb-1">
+                  Dish Name
+                </label>
+                <input
+                  type="text"
+                  value={dish}
+                  onChange={(e) => setDish(e.target.value)}
+                  className="w-full outline-neutral-200 rounded-lg p-2 mb-4 shadow-input border border-neutral-200"
+                  placeholder="Enter dish name"
+                  required // ✅ Add validation
+                />
+                {/* Serving */}
+                <label className="block text-sm font-medium mb-1">
+                  Serving
+                </label>
+                <input
+                  type="number"
+                  value={serving}
+                  onChange={(e) => setServing(e.target.value)}
+                  className="w-full outline-neutral-200 rounded-lg p-2 mb-4 shadow-input border border-neutral-200"
+                  placeholder="Number of servings"
+                  min="1"
+                  required // ✅ Add validation
+                />
+                {/* Notes */}
+                <label className="block text-sm font-medium mb-1">
+                  Additional Notes
+                </label>
+                <textarea
+                  value={notes}
+                  onChange={(e) => setNotes(e.target.value)}
+                  className="w-full outline-neutral-200 rounded-lg p-2 h-24 mb-4 shadow-input border border-neutral-200"
+                  placeholder="Write notes..."
+                />
+                <div className="flex justify-end gap-3 mt-4">
+                  <button
+                    type="button"
+                    onClick={() => setOpen(false)}
+                    className="px-4 py-2 bg-neutral-200/60 rounded-lg hover:bg-gray-300"
+                    disabled={loading}
+                  >
+                    Cancel
+                  </button>
+                  <Button
+                    type="submit"
+                    className="px-4 font-semibold"
+                    disabled={loading}
+                  >
+                    {loading ? "Generating..." : "Generate"}
+                  </Button>
+                </div>
+              </form>
             </motion.div>
           </motion.div>
         )}
