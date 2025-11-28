@@ -103,6 +103,9 @@ export default function Generate() {
       animate="show"
     >
       {/* Illustration Section */}
+      <Link className="md:hidden flex" to={"/"}>
+        {"<--"} Go back
+      </Link>
       <motion.div
         variants={itemVariants}
         className="w-full h-[45vh] bg-gray-200 rounded-xl mb-4 flex items-center justify-center"
