@@ -138,7 +138,7 @@ export function AuthProvider({ children }) {
     };
 
     checkAuth();
-  }, [isAuthenticated]);
+  }, []);
 
   const value = {
     User,
