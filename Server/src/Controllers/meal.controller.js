@@ -77,7 +77,7 @@ export const FetchMeal = async (req, res) => {
 
 export const GetRecipeByMealId = async (req, res) => {
   try {
-    const mealId = req.params.mealId;
+    const mealId = req.params.id;
     const userId = req.user.id;
 
     // Verify the meal belongs to the user
