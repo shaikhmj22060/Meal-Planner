@@ -127,7 +127,7 @@ export default function Generate() {
           >
             <Card
               img="/dish2.svg"
-              title={meal.meal.mealName} // ✅ Fixed typo
+              tittle={meal.meal.mealName} // ✅ Fixed typo
               servings={meal.meal.serving}
             />
           </motion.div>

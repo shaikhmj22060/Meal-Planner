@@ -1,19 +1,7 @@
 import React from "react";
 import { motion } from "motion/react";
 
-export default function CardDemo({ onClick, img,tittle,servings }) {
-  // Mock data for testing UI
-  const recipe = {
-    title: "Creamy Pink Sauce Pasta",
-    servings: 10,
-  };
-
-  const meal = {
-    mealName: "Pink Sauce Pasta",
-    serving: 10,
-    note: "Preferred bit spicy with some sweetness.",
-  };
-
+export default function CardDemo({ onClick, img, tittle, servings }) {
   return (
     <motion.div
       onClick={onClick}
@@ -54,12 +42,9 @@ export default function CardDemo({ onClick, img,tittle,servings }) {
               d="M3 12h18m-9 4a9 9 0 0 0 9-9H3a9 9 0 0 0 9 9Z"
             />
           </svg>
-
           {servings} Servings
         </div>
       </div>
-
-     
     </motion.div>
   );
 }
