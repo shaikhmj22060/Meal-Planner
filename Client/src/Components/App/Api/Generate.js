@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const generate = async (mealName, serving, note) => {
-  const url = process.env.SERVER;
+  const url = process.env.VITE_SERVER;
   try {
     const res = await axios.post(
       `${url}/api/crud/create-meal`,
