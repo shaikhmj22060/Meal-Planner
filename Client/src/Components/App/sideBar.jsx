@@ -50,7 +50,7 @@ export default function Sidebar() {
 
   return (
     <motion.aside 
-      className="w-[20%]  px-4 py-3 flex flex-col bg-neutral-100/40 shadow-input h-screen"
+      className="w-[20%] sm:hidden px-4 py-3 flex flex-col bg-neutral-100/40 shadow-input h-screen "
       variants={sidebarVariants}
       initial="hidden"
       animate="show"
