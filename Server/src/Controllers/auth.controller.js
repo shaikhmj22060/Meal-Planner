@@ -143,13 +143,18 @@ export const Logout = async (req, res) => {
   try {
     const Loggedin = req.cookies.token;
     if (Loggedin) {
-      const decoded = await jwt.verify(Loggedin, process.env.JWT_SECRET);
+      const decoded = jwt.verify(Loggedin, process.env.JWT_SECRET);
       const id = UserModel.findById(decoded.id);
       if (!id) {
         return res.status(404).json({ msg: "User not found" });
       }
       if (decoded && id) {
-        res.clearCookie("token");
+        res.clearCookie("token", {
+          httpOnly: true,
+          secure: true,
+          sameSite: "none",
+          path: "/",
+        });
         return res.status(200).json({
           msg: "Logout Successfull",
         });

@@ -64,14 +64,17 @@ export const createMeal = async (req, res) => {
 
 export const FetchMeal = async (req, res) => {
   try {
-    const meals = await Meal.find();
-    return res.status(200).json({
-      meals,
-    });
+    const userId = req.user.id; // authenticated user's ID
+
+    const meals = await Meal.find({ user: userId }); // filter by user field
+
+    return res.status(200).json({ meals });
   } catch (error) {
-    console.log(error.msg);
+    console.error(error.message);
+    return res.status(500).json({ msg: "Something went wrong" });
   }
 };
+
 export const GetRecipe = async (req, res) => {
   const recipes = await Recipe.find();
   return res.status(200).json({
