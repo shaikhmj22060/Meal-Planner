@@ -9,12 +9,13 @@ export function AuthProvider({ children }) {
   const [User, setUser] = useState(null);
   const [Error, setError] = useState(null);
   const [isAuthenticated, setisAuthenticated] = useState(null);
+  const url = process.env.SERVER
 
   const fetchUser = async () => {
     setLoading(true);
 
     try {
-      const res = await axios.get("api/auth/getMe", {
+      const res = await axios.get(`${url}/api/auth/getMe`, {
         withCredentials: true,
         headers: {
           "Content-Type": "application/json",
@@ -42,7 +43,7 @@ export function AuthProvider({ children }) {
     setError(null);
     try {
       const res = await axios.post(
-        "api/auth/register",
+        `${url}/api/auth/register`,
         {
           username,
           name,
@@ -73,7 +74,7 @@ export function AuthProvider({ children }) {
 
     try {
       const res = await axios.post(
-        "/api/auth/login",
+        `${url}/api/auth/login`,
         {
           emailOrUsername,
           password,
@@ -102,7 +103,7 @@ export function AuthProvider({ children }) {
     setError(null);
     try {
       await axios.post(
-        "api/auth/logout",
+        `${url}/api/auth/logout`,
         {},
         {
           withCredentials: true,
