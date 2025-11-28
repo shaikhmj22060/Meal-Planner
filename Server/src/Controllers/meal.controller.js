@@ -87,7 +87,7 @@ export const GetRecipeByMealId = async (req, res) => {
     }
 
     // Get the recipe linked to this meal
-    const recipe = await Recipe.findOne({ meal: mealId });
+    const recipe = await Recipe.findOne({ mealName: mealId });
 
     if (!recipe) {
       return res.status(404).json({ msg: "Recipe not found" });
