@@ -6,27 +6,25 @@ import HowItWorks from "../Components/HowItWorks";
 import SparkleBackground from "../Components/SparkleBackground";
 import TestimonialsSection from "../Components/TestimonialsSection";
 import { useAuth } from "../context/AuthContext";
+import Footer from "../Components/Footer";
 
 const Home = () => {
   const { scrollYProgress } = useScroll();
 
-  
   const navY = useTransform(scrollYProgress, [0, 0.1], ["0%", "-100%"]);
   const navOpacity = useTransform(scrollYProgress, [0, 0.1], [1, 0]);
 
-
-const {User} = useAuth()
-console.log(User?.name)
+  const { User } = useAuth();
+  console.log(User?.name);
   // PAGE PARALLAX
   const page2Y = useTransform(scrollYProgress, [0, 0.33], ["100%", "0%"]);
   const page3Y = useTransform(scrollYProgress, [0.33, 0.66], ["100%", "0%"]);
 
   return (
     <div className="h-full w-full relative overflow-hidden ">
-      <SparkleBackground count={60}/>
+      <SparkleBackground count={60} />
       {/* PAGE 1 */}
       <div className="h-screen relative">
-
         <motion.div
           style={{ y: navY, opacity: navOpacity }}
           className="w-full fixed top-0 left-0 z-999"
@@ -43,28 +41,20 @@ console.log(User?.name)
         className="h-screen relative z-20 flex  items-center justify-center"
         style={{ y: page2Y }}
       >
-        <HowItWorks/>
-        <SparkleBackground/>
-        
+        <HowItWorks />
+        <SparkleBackground />
       </motion.div>
       <motion.div
         className="h-screen relative z-20 flex  items-center justify-center"
         style={{ y: page2Y }}
       >
-        
-       <TestimonialsSection/>
-        
+        <TestimonialsSection />
       </motion.div>
 
       {/* PAGE 3 */}
-      <motion.div
-        className="h-screen bg-neutral-200/20 z-30 flex items-center  justify-center"
-        style={{ y: page3Y }}
-      >
-        
-        <h1 className="text-8xl">Hello world</h1>
+      <motion.div className=" bg-neutral-200/20 z-30 flex items-center  justify-center">
+        <Footer />
       </motion.div>
-
     </div>
   );
 };

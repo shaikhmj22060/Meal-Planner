@@ -1,6 +1,7 @@
 import React from "react";
 import { motion } from "motion/react";
 import Button from "./Button";
+import { Link } from "react-router-dom";
 
 const Hero = () => {
   const parent = {
@@ -157,7 +158,7 @@ const Hero = () => {
 
         <div className="flex justify-center items-center">
           <Button variants={child} className="capitalize mt-4 font-bold">
-            Generate Your First Recipe Now
+          <Link to={'App/Meals/generate'}>  Generate Your First Recipe Now </Link>  
           </Button>
         </div>
       </motion.div>
