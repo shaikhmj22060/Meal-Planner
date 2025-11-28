@@ -104,7 +104,7 @@ export default function Generate() {
     >
       {/* Illustration Section */}
       <Link className="md:hidden flex" to={"/"}>
-        {"<--"} Go back
+        {"<--"} Home
       </Link>
       <motion.div
         variants={itemVariants}
