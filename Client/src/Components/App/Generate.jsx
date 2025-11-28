@@ -258,33 +258,51 @@ export default function Generate() {
         )}
       </AnimatePresence>
       {selectedRecipe && (
-        <div className="fixed inset-0 bg-black/30 backdrop-blur-sm flex items-center justify-center z-50">
-          <div className="bg-white p-6 w-[90%] max-w-lg rounded-xl shadow-xl">
+        <div className="fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center z-50">
+          <div
+            className="
+        bg-white 
+        w-[90%] 
+        max-w-2xl 
+        max-h-[85vh] 
+        overflow-y-auto 
+        p-6 
+        rounded-xl 
+        shadow-2xl
+      "
+          >
+            {/* Recipe Title */}
             <h2 className="text-2xl font-semibold">{selectedRecipe.title}</h2>
+
             <p className="text-sm text-neutral-600 mb-4">
               Servings: {selectedRecipe.servings}
             </p>
 
-            <h3 className="font-semibold mt-3">Ingredients</h3>
-            <ul className="list-disc ml-5 text-sm text-neutral-700">
+            {/* Ingredients */}
+            <h3 className="font-semibold text-lg mt-4">Ingredients</h3>
+            <ul className="list-disc ml-5 text-sm text-neutral-700 space-y-1">
               {selectedRecipe.ingredients.map((ing, i) => (
                 <li key={i}>{ing}</li>
               ))}
             </ul>
 
-            <h3 className="font-semibold mt-4">Instructions</h3>
-            <ol className="list-decimal ml-5 text-sm text-neutral-700 space-y-1">
+            {/* Instructions */}
+            <h3 className="font-semibold text-lg mt-6">Instructions</h3>
+            <ol className="list-decimal ml-5 text-sm text-neutral-700 space-y-2">
               {selectedRecipe.instructions.map((step, i) => (
                 <li key={i}>{step}</li>
               ))}
             </ol>
 
-            <button
-              onClick={() => setSelectedRecipe(null)}
-              className="mt-6 px-4 py-2 bg-neutral-800 text-white rounded-lg"
-            >
-              Close
-            </button>
+            {/* Close Button */}
+            <div className="flex justify-end mt-6">
+              <button
+                onClick={() => setSelectedRecipe(null)}
+                className="px-4 py-2 bg-neutral-900 text-white rounded-lg hover:bg-neutral-700"
+              >
+                Close
+              </button>
+            </div>
           </div>
         </div>
       )}
