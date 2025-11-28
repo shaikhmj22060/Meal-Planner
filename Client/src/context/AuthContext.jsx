@@ -9,7 +9,7 @@ export function AuthProvider({ children }) {
   const [User, setUser] = useState(null);
   const [Error, setError] = useState(null);
   const [isAuthenticated, setisAuthenticated] = useState(null);
-  const url = process.env.VITE_SERVER
+  const url = import.meta.env.VITE_SERVER;
 
   const fetchUser = async () => {
     setLoading(true);
@@ -28,7 +28,7 @@ export function AuthProvider({ children }) {
     } catch (error) {
       console.log("Fetch user error", error);
       setUser(null);
-      setisAuthenticated(null);
+      setisAuthenticated(false);
 
       if (error.response?.status !== 401) {
         setError(error.response?.data?.msg || "Failed to fetch user");
@@ -38,7 +38,7 @@ export function AuthProvider({ children }) {
       setLoading(false);
     }
   };
-  const register = async (username,name, email, password) => {
+  const register = async (username, name, email, password) => {
     setLoading(true);
     setError(null);
     try {
