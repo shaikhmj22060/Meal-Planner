@@ -15,6 +15,7 @@ const generate = async (mealName, serving, note) => {
       }
     );
      console.log(res.data.meal);
+     return res.data
   } catch (err) {
     console.log(err);
     console.log(err?.res?.msg);
