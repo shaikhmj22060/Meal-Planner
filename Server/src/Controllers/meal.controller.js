@@ -39,7 +39,7 @@ export const createMeal = async (req, res) => {
     const recipe = extractJSON(responseText);
 
     const aiResponse = await Recipe.create({
-      meal: meal._id,
+      mealName: meal._id,
       title: recipe.title,
       servings: recipe.servings,
       totalTime: recipe.total_time,
