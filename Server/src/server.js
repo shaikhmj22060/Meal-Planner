@@ -5,7 +5,7 @@ import cors from "cors";
 
 app.use(
   cors({
-    origin: "*",
+    origin: "https://meal-planner-client-uofu.onrender.com/",
     credentials: true,
   })
 );
