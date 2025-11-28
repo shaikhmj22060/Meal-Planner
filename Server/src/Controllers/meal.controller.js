@@ -1,3 +1,4 @@
+import { json } from "zod";
 import { Meal, Recipe } from "../Models/Meal.Model.js";
 import { aiSchema } from "../Utils/aiSchema.js";
 import { extractJSON } from "../Utils/extractjson.js";
@@ -36,7 +37,6 @@ export const createMeal = async (req, res) => {
     // console.log("📄 Response text:", responseText);
 
     const recipe = extractJSON(responseText);
-   
 
     const aiResponse = await Recipe.create({
       meal: meal._id,
@@ -60,4 +60,21 @@ export const createMeal = async (req, res) => {
       error: error.message,
     });
   }
+};
+
+export const FetchMeal = async (req, res) => {
+  try {
+    const meals = await Meal.find();
+    return res.status(200).json({
+      meals,
+    });
+  } catch (error) {
+    console.log(error.msg);
+  }
+};
+export const GetRecipe = async (req, res) => {
+  const recipes = await Recipe.find();
+  return res.status(200).json({
+    recipes,
+  });
 };
