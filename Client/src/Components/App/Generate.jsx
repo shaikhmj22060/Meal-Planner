@@ -4,6 +4,7 @@ import Button from "../Button";
 import Card from "./Card";
 import generate from "./Api/Generate";
 import { useAuth } from "../../context/AuthContext";
+import CardDemo from "./Card";
 
 export default function Generate() {
   const [open, setOpen] = useState(false);
@@ -125,7 +126,7 @@ export default function Generate() {
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.3 }}
           >
-            <Card
+            <CardDemo
               img="/dish2.svg"
               tittle={meal.meal.mealName} // ✅ Fixed typo
               servings={meal.meal.serving}
