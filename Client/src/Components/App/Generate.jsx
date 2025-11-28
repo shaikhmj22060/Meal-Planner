@@ -82,7 +82,9 @@ export default function Generate() {
   useEffect(() => {
     const loadMeals = async () => {
       const data = await fetchMeals();
-      setMeal(data);
+      const {meal} = data
+      console.log(meal)
+      setMeal(meal)
     };
     loadMeals();
   }, []);

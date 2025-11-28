@@ -34,6 +34,5 @@ export const fetchMeals = async () => {
     return res.data; // return meals array
   } catch (error) {
     console.error("Error fetching meals:", error);
-    return [];
   }
 };
