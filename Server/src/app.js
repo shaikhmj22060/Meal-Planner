@@ -1,8 +1,16 @@
 import express from "express";
 import router from "./Routes/index.js";
 import cookieParser from "cookie-parser";
+import cors from "cors";
+
 
 const app = express();
+app.use(
+  cors({
+    origin: "https://meal-planner-alpha-ten.vercel.app",
+    credentials: true,
+  })
+);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
