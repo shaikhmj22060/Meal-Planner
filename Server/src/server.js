@@ -5,7 +5,7 @@ import cors from "cors";
 
 app.use(
   cors({
-    origin: "https://meal-planner-client-uofu.onrender.com/",
+    origin: "https://meal-planner-alpha-ten.vercel.app",
     credentials: true,
   })
 );
