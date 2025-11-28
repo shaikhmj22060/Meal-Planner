@@ -23,9 +23,13 @@ export const generate = async (mealName, serving, note) => {
 
 export const fetchMeals = async () => {
   try {
-    const res = await axios.post(`${url}/api/crud/get-meal`, {
-      withCredentials: true,
-    });
+    const res = await axios.post(
+      `${url}/api/crud/get-meal`,
+      {},
+      {
+        withCredentials: true,
+      }
+    );
 
     const data = await res.json();
     return data.meals; // return meals array
