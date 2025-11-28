@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import Button from "../Button";
-import Card from "./Card";
-import generate from "./Api/Generate";
+import {generate,fetchMeals} from './Api/Generate'
 import { useAuth } from "../../context/AuthContext";
 import CardDemo from "./Card";
 
@@ -29,7 +28,7 @@ export default function Generate() {
 
     try {
       console.log("🍳 Generating recipe for:", dish); // Debug
-      const result = await generate(dish, serving, notes);
+      const result = await generate
       console.log("✅ Recipe generated:", result); // Debug
 
       // setMeal(result);

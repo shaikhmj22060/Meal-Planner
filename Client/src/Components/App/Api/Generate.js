@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const url = import.meta.env.VITE_SERVER;
-const generate = async (mealName, serving, note) => {
+export const generate = async (mealName, serving, note) => {
   try {
     const res = await axios.post(
       `${url}/api/crud/create-meal`,
@@ -21,7 +21,7 @@ const generate = async (mealName, serving, note) => {
   }
 };
 
-const fetchMeals = async () => {
+export const fetchMeals = async () => {
   try {
     const res = await axios.post(`${url}/api/crud/get-meal`, {
       withCredentials: true,
@@ -34,4 +34,3 @@ const fetchMeals = async () => {
     return [];
   }
 };
-export default { generate, fetchMeals };
