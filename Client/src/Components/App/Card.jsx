@@ -1,7 +1,7 @@
 import React from "react";
 import { motion } from "motion/react";
 
-export default function CardDemo({ onClick, img }) {
+export default function CardDemo({ onClick, img,tittle,servings }) {
   // Mock data for testing UI
   const recipe = {
     title: "Creamy Pink Sauce Pasta",
@@ -33,7 +33,7 @@ export default function CardDemo({ onClick, img }) {
 
       {/* Title */}
       <h3 className="text-lg font-semibold text-neutral-900 truncate">
-        {recipe.title}
+        {tittle}
       </h3>
 
       {/* Serving Badge with Icon */}
@@ -55,7 +55,7 @@ export default function CardDemo({ onClick, img }) {
             />
           </svg>
 
-          {recipe.servings} Servings
+          {servings} Servings
         </div>
       </div>
 
