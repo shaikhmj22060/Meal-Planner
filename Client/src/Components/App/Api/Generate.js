@@ -14,7 +14,7 @@ const generate = async (mealName, serving, note) => {
         withCredentials: true,
       }
     );
-    console.log(res.data.recipe);
+     console.log(res.data.meal);
   } catch (err) {
     console.log(err);
     console.log(err?.res?.msg);
