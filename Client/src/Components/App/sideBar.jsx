@@ -55,6 +55,9 @@ export default function Sidebar() {
       initial="hidden"
       animate="show"
     >
+      <Link className="md:hidden" to={"/"}>
+        {"<--"}
+      </Link>
       <motion.div
         className="flex items-center justify-between"
         variants={itemVariants}
