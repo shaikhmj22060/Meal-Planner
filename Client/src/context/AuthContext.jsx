@@ -9,7 +9,7 @@ export function AuthProvider({ children }) {
   const [User, setUser] = useState(null);
   const [Error, setError] = useState(null);
   const [isAuthenticated, setisAuthenticated] = useState(null);
-  const url = process.env.SERVER
+  const url = process.env.VITE_SERVER
 
   const fetchUser = async () => {
     setLoading(true);
