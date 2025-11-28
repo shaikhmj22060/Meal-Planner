@@ -16,8 +16,8 @@ export default function Generate() {
   const { isAuthenticated } = useAuth();
   const [selectedRecipe, setSelectedRecipe] = useState(null);
 
-  const handleCardClick = async (id, e) => {
-    e.preventDefault();
+  const handleCardClick = async (id) => {
+    // e.preventDefault();
     const recipe = await getRecipeByMealId(id);
     setSelectedRecipe(recipe);
   };
