@@ -11,14 +11,16 @@ export default function Generate() {
   const [serving, setServing] = useState("");
   const [notes, setNotes] = useState("");
   const [Loading, setLoading] = useState(false);
-  
+  const [Meal, setMeal] = useState(null);
   const { isAuthenticated } = useAuth();
- 
+
   const onSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
     if (isAuthenticated == true) {
       const result = await generate(dish, serving, notes);
+      setMeal(result)
+      console.log(Meal)
       setLoading(false);
       setOpen(false);
     }
@@ -79,9 +81,9 @@ export default function Generate() {
         />
       </motion.div>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 p-2">
+        
         <Card img={"/dish.svg"} />
         <Card img={"/dish2.svg"} />
-        
       </div>
 
       {/* Floating Button */}
