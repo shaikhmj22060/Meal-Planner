@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import Button from "../Button";
-import { generate, fetchMeals } from "./Api/Generate";
+import { generate, fetchMeals, getRecipeByMealId } from "./Api/Generate";
 import { useAuth } from "../../context/AuthContext";
 import CardDemo from "./Card";
 
