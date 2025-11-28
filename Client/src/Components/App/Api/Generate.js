@@ -1,7 +1,7 @@
 import axios from "axios";
 
+const url = import.meta.env.VITE_SERVER;
 const generate = async (mealName, serving, note) => {
-  const url = import.meta.env.VITE_SERVER;
   try {
     const res = await axios.post(
       `${url}/api/crud/create-meal`,
@@ -14,11 +14,24 @@ const generate = async (mealName, serving, note) => {
         withCredentials: true,
       }
     );
-     console.log(res.data.meal);
-     return res.data
+    return res.data;
   } catch (err) {
     console.log(err);
     console.log(err?.res?.msg);
   }
 };
-export default generate;
+
+const fetchMeals = async () => {
+  try {
+    const res = await axios.post(`${url}/api/crud/get-meal`, {
+      withCredentials: true,
+    });
+
+    const data = await res.json();
+    return data.meals; // return meals array
+  } catch (error) {
+    console.error("Error fetching meals:", error);
+    return [];
+  }
+};
+export default { generate, fetchMeals };

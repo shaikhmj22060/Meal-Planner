@@ -32,7 +32,7 @@ export default function Generate() {
       const result = await generate(dish, serving, notes);
       console.log("✅ Recipe generated:", result); // Debug
 
-      setMeal(result);
+      // setMeal(result);
       setOpen(false); // ✅ Close modal after successful generation
 
       // Reset form
@@ -80,6 +80,13 @@ export default function Generate() {
       },
     },
   };
+  useEffect(() => {
+    const loadMeals = async () => {
+      const data = await fetchMeals();
+      setMeal(data);
+    };
+    loadMeals();
+  }, []);
 
   return (
     <motion.div
@@ -112,29 +119,34 @@ export default function Generate() {
           </div>
         )}
 
-        {/* ✅ Show error if any */}
         {error && (
           <div className="col-span-full bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
             {error}
           </div>
         )}
 
-        {/* ✅ Show meal card when available */}
-        {meal?.meal && !loading && (
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.3 }}
-          >
-            <CardDemo
-              img="/dish2.svg"
-              tittle={meal.meal.mealName} // ✅ Fixed typo
-              servings={meal.meal.serving}
-            />
-          </motion.div>
+        {meal && meal.length > 0 ? (
+          meal.meal.map((item) => (
+            <motion.div
+              key={item._id}
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.3 }}
+            >
+              <CardDemo
+                img="/dish2.svg"
+                tittle={item.mealName}
+                servings={item.serving}
+                note={item.note}
+              />
+            </motion.div>
+          ))
+        ) : (
+          <p className="text-neutral-500 col-span-full text-center">
+            No meals found. Generate one to get started.
+          </p>
         )}
 
-        {/* ✅ Show empty state when no meal and not loading */}
         {!meal && !loading && (
           <div className="col-span-full flex items-center justify-center py-12 text-neutral-400">
             <p>Click the + button to generate your first recipe!</p>
