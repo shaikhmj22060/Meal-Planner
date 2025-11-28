@@ -75,9 +75,26 @@ export const FetchMeal = async (req, res) => {
   }
 };
 
-export const GetRecipe = async (req, res) => {
-  const recipes = await Recipe.find();
-  return res.status(200).json({
-    recipes,
-  });
+export const GetRecipeByMealId = async (req, res) => {
+  try {
+    const mealId = req.params.mealId;
+    const userId = req.user.id;
+
+    // Verify the meal belongs to the user
+    const meal = await Meal.findOne({ _id: mealId, user: userId });
+    if (!meal) {
+      return res.status(404).json({ msg: "Meal not found" });
+    }
+
+    // Get the recipe linked to this meal
+    const recipe = await Recipe.findOne({ meal: mealId });
+
+    if (!recipe) {
+      return res.status(404).json({ msg: "Recipe not found" });
+    }
+
+    return res.status(200).json({ recipe });
+  } catch (error) {
+    return res.status(500).json({ msg: error.message });
+  }
 };
