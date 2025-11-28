@@ -86,7 +86,7 @@ export default function Generate() {
       setMeal(data);
     };
     loadMeals();
-  }, []);
+  }, [onSubmit]);
 
   return (
     <motion.div
