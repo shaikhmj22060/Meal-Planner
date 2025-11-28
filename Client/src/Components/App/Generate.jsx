@@ -19,7 +19,7 @@ export default function Generate() {
     setLoading(true);
     if (isAuthenticated == true) {
       const result = await generate(dish, serving, notes);
-      setMeal(result)
+      setMeal(result);
       setLoading(false);
       setOpen(false);
     }
@@ -80,8 +80,9 @@ export default function Generate() {
         />
       </motion.div>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 p-2">
-        
-        {/* <Card img={"/dish.svg"} tittle={Meal.meal.mealName} servings={Meal.meal.serving}/> */}
+        {Meal?.meal && (
+          <Card tittle={Meal.meal.mealName} servings={Meal.meal.serving} />
+        )}
         <Card img={"/dish2.svg"} />
       </div>
 
