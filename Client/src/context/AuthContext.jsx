@@ -9,7 +9,7 @@ export function AuthProvider({ children }) {
   const [User, setUser] = useState(null);
   const [Error, setError] = useState(null);
   const [isAuthenticated, setisAuthenticated] = useState(null);
-  const url = import.meta.env.VITE_SERVER;
+  const url = import.meta.env.VITE_SERVER || "http://localhost:4000";
 
   const fetchUser = async () => {
     setLoading(true);
@@ -89,8 +89,9 @@ export function AuthProvider({ children }) {
       return { success: true, user: res.data.user };
     } catch (error) {
       console.log("Login error:", error);
-      const errorMsg = error.res?.data?.msg || "Login failed";
+      const errorMsg = error.response.data.msg;
       setError(errorMsg);
+
       setUser(null);
       setisAuthenticated(false);
       return { success: false, error: errorMsg };

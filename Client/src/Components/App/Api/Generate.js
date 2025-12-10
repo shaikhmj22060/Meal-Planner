@@ -1,6 +1,7 @@
 import axios from "axios";
 
-const url = import.meta.env.VITE_SERVER;
+const url = import.meta.env.VITE_SERVER || "http://localhost:4000";
+console.log(url)
 export const generate = async (mealName, serving, note) => {
   try {
     const res = await axios.post(

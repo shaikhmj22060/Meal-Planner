@@ -17,8 +17,8 @@ const Home = () => {
   const { User } = useAuth();
   console.log(User?.name);
   // PAGE PARALLAX
-  const page2Y = useTransform(scrollYProgress, [0, 0.33], ["100%", "0%"]);
-  const page3Y = useTransform(scrollYProgress, [0.33, 0.66], ["100%", "0%"]);
+  const page2Y = useTransform(scrollYProgress, [0, 0.15], ["100%", "0%"]);
+  const page3Y = useTransform(scrollYProgress, [0.15, 0.66], ["100%", "0%"]);
 
   return (
     <div className="h-full w-full relative overflow-hidden ">
@@ -46,7 +46,7 @@ const Home = () => {
       </motion.div>
       <motion.div
         className="h-screen relative z-20 flex  items-center justify-center"
-        style={{ y: page2Y }}
+        style={{ y: page3Y }}
       >
         <TestimonialsSection />
       </motion.div>

@@ -26,7 +26,11 @@ export const router = createBrowserRouter([
   },
   {
     path: "/App/Meals",
-    element: <MyRecipe />,
+    element: [
+      <Protected>
+        <MyRecipe />
+      </Protected>,
+    ],
     children: [
       {
         path: "generate",

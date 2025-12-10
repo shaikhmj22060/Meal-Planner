@@ -1,10 +1,11 @@
-import React, { useEffect, useState, } from "react";
+import React, { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import Button from "../Button";
 import { Link } from "react-router-dom";
 import { generate, fetchMeals, getRecipeByMealId } from "./Api/Generate";
 import { useAuth } from "../../context/AuthContext";
 import CardDemo from "./Card";
+import { ArrowLeftIcon, RefreshCcwIcon } from "lucide-react";
 
 export default function Generate() {
   const [open, setOpen] = useState(false);
@@ -87,12 +88,12 @@ export default function Generate() {
       },
     },
   };
+  const loadMeals = async () => {
+    const data = await fetchMeals();
+    console.log(data);
+    setMeal(data);
+  };
   useEffect(() => {
-    const loadMeals = async () => {
-      const data = await fetchMeals();
-      console.log(data);
-      setMeal(data);
-    };
     loadMeals();
   }, []);
 
@@ -104,8 +105,9 @@ export default function Generate() {
       animate="show"
     >
       {/* Illustration Section */}
-      <Link className="md:hidden flex" to={"/"}>
-        {"<--"} Home
+      <Link className="md:hidden flex items-center gap-2 mb-2" to={"/"}>
+        <ArrowLeftIcon className="size-4 bg-neutral-200 rounded-full  hover:bg-neutral-50" />{" "}
+        Home
       </Link>
       <motion.div
         variants={itemVariants}
@@ -117,8 +119,10 @@ export default function Generate() {
           className="w-full h-full object-contain opacity-90"
         />
       </motion.div>
-
       {/* Cards Grid */}
+      <div className=" flex items-center justify-end pr-3 cursor-pointer" onClick={loadMeals}>
+        <RefreshCcwIcon className="size-4 " />
+      </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 p-2">
         {/* ✅ Show loading indicator here instead of replacing entire component */}
         {loading && (

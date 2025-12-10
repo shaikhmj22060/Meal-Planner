@@ -41,7 +41,7 @@ const Nav = () => {
     },
     {
       id: "#Meals",
-      title: "My Recipe",
+      title: "Dashboard",
       href: "/App/Meals",
       requireAuth: true,
     },
