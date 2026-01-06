@@ -8,7 +8,7 @@ export function AuthProvider({ children }) {
   const [Loading, setLoading] = useState(true);
   const [User, setUser] = useState(null);
   const [Error, setError] = useState(null);
-  const [isAuthenticated, setisAuthenticated] = useState(null);
+  const [isAuthenticated, setisAuthenticated] = useState(false);
   const url = import.meta.env.VITE_SERVER || "http://localhost:4000";
 
   const fetchUser = async () => {
@@ -27,11 +27,11 @@ export function AuthProvider({ children }) {
       return res.data.user;
     } catch (error) {
       console.log("Fetch user error", error);
-      setUser(null);
-      setisAuthenticated(false);
 
       if (error.response?.status !== 401) {
         setError(error.response?.data?.msg || "Failed to fetch user");
+        setUser(null);
+        setisAuthenticated(false);
       }
       return null;
     } finally {
@@ -130,15 +130,15 @@ export function AuthProvider({ children }) {
   };
 
   useEffect(() => {
-    const checkAuth = async () => {
-      if (isAuthenticated === false) {
+    const initAuth = async () => {
+      try {
+        await fetchUser();
+      } finally {
         setLoading(false);
-        return;
       }
-      await fetchUser();
     };
 
-    checkAuth();
+    initAuth();
   }, []);
 
   const value = {

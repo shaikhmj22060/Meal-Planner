@@ -11,7 +11,7 @@ const Protected = ({ children }) => {
     return <LoadingComponent />;
   }
 
-  if (isAuthenticated == null || isAuthenticated == false) {
+  if (!isAuthenticated) {
     return <Navigate to={"/login"} replace state={{ from: location }} />;
   }
   return children;
