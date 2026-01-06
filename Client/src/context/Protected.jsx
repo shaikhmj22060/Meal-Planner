@@ -1,13 +1,14 @@
 import React from "react";
 import { useAuth } from "./AuthContext";
 import { Navigate, useLocation } from "react-router-dom";
+import { LoadingComponent } from "./component/LoadingComponent";
 
 const Protected = ({ children }) => {
   const { isAuthenticated, Loading } = useAuth();
   const location = useLocation();
 
   if (Loading) {
-    return <div> Loading</div>;
+    return <LoadingComponent />;
   }
 
   if (isAuthenticated == null || isAuthenticated == false) {

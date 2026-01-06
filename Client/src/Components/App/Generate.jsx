@@ -120,7 +120,10 @@ export default function Generate() {
         />
       </motion.div>
       {/* Cards Grid */}
-      <div className=" flex items-center justify-end pr-3 cursor-pointer" onClick={loadMeals}>
+      <div
+        className=" flex items-center justify-end pr-3 cursor-pointer"
+        onClick={loadMeals}
+      >
         <RefreshCcwIcon className="size-4 " />
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 p-2">
@@ -201,14 +204,12 @@ export default function Generate() {
               animate="show"
               exit="exit"
               className="bg-white w-[90%] max-w-md p-6 rounded-xl shadow-xl"
-              onClick={(e) => e.stopPropagation()} // ✅ Prevent closing when clicking inside
+              onClick={(e) => e.stopPropagation()}
             >
               <h3 className="text-xl font-semibold mb-4">Create New Recipe</h3>
 
               <form onSubmit={onSubmit}>
                 {" "}
-                {/* ✅ Wrap in form for better UX */}
-                {/* Dish Name */}
                 <label className="block text-sm font-medium mb-1">
                   Dish Name
                 </label>
