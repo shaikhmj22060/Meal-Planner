@@ -10,7 +10,7 @@ export function AuthProvider({ children }) {
   const [Error, setError] = useState(null);
   const [isAuthenticated, setisAuthenticated] = useState(false);
   const url = import.meta.env.VITE_SERVER || "http://localhost:4000";
-
+console.log(url) 
   const fetchUser = async () => {
     setLoading(true);
 
